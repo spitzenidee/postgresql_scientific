@@ -18,12 +18,14 @@ RUN apt-get update && apt-get install -y \
     pgxnclient \
     cmake \
     m4 \
-    build-essential
-# Install MADlib
-RUN pgxn install madlib
-# does not work: RUN /usr/local/madlib/bin/madpack -s madlib -p postgres install
+    build-essential && \
+
+# Install MADlib:
+    pgxn install madlib && \
+    # does not work: RUN /usr/local/madlib/bin/madpack -s madlib -p postgres install
+
 # Clean up again:
-RUN apt-get remove -y git cmake build-essential && \
+    apt-get remove -y git cmake build-essential pgxnclient m4 && \
     apt-get autoremove --purge -y && \
     apt-get clean && \
     apt-get purge && \
